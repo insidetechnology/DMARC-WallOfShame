@@ -1346,5 +1346,6 @@
   { "name": "Firebase", "domain": "firebaseapp.com", "industry": "Technology & Software" },
   { "name": "Ubiquiti", "domain": "ubiquiti.com", "industry": "Technology & Software" },
   { "name": "Darknet diaries", "domain": "darknetdiaries.com", "industry": "Media & Entertainment" },
-  { "name": "Carwiz", "domain": "carwiz.rent", "industry": "Other" }
+  { "name": "Carwiz", "domain": "carwiz.rent", "industry": "Other" },
+  { "name": "Corgea", "domain": "corgea.com", "industry": "Cybersecurity" }
 ]
