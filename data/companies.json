@@ -1344,5 +1344,6 @@
   { "name": "CVE", "domain": "cve.org", "industry": "Cybersecurity" },
   { "name": "Zoox", "domain": "zoox.com", "industry": "Automotive" },
   { "name": "Firebase", "domain": "firebaseapp.com", "industry": "Technology & Software" },
-  { "name": "Ubiquiti", "domain": "ubiquiti.com", "industry": "Technology & Software" }
+  { "name": "Ubiquiti", "domain": "ubiquiti.com", "industry": "Technology & Software" },
+  { "name": "Darknet diaries", "domain": "darknetdiaries.com", "industry": "Media & Entertainment" }
 ]
