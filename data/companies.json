@@ -1340,5 +1340,7 @@
   { "name": "Inforcer", "domain": "inforcerdev.net", "industry": "Technology & Software" },
   { "name": "Slovakian Government", "domain": "slovensko.sk", "industry": "Government & Public Sector" },
   { "name": "Cyberstrategies", "domain": "cyberstrategies.co.uk", "industry": "Cybersecurity" },
-  { "name": "Trivy", "domain": "trivy.dev", "industry": "Cybersecurity" }
+  { "name": "Trivy", "domain": "trivy.dev", "industry": "Cybersecurity" },
+  { "name": "CVE", "domain": "cve.org", "industry": "Cybersecurity" },
+   { "name": "Zoox", "domain": "zoox.com", "industry": "Automotive" }
 ]
