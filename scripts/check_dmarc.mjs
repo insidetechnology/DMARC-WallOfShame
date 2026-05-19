@@ -1,7 +1,6 @@
 // Bulk DMARC auditor: reads company domains from data/companies.json, resolves
 // _dmarc.<domain> TXT, and writes docs/non_dmarc.json listing domains with no
 // record or policy p=none (quarantine/reject domains are omitted from output).
-// The published rows carry through each company's industry label for filtering.
 //
 // Node's dns.resolve* paths use libuv's thread pool, which defaults to 4
 // workers. Set UV_THREADPOOL_SIZE before starting node to at least your
@@ -20,7 +19,7 @@ import { performance } from "node:perf_hooks";
 import dnsPromises from "node:dns/promises";
 import { parseArgs } from "node:util";
 
-/** Source list: objects with at least { name, domain }. */
+/** Source list: objects with at least { name, domain }; optional { industry }. */
 const INPUT_FILE = "data/companies.json";
 /** Domains that lack DMARC or use p=none only; used by the site/docs. */
 const OUTPUT_FILE = "docs/non_dmarc.json";
@@ -160,7 +159,7 @@ async function getDmarcPolicy(domain, timeoutMs, maxAttempts) {
  * @param {{ name: string; domain: string; industry?: string }} company
  * @param {string | null} policy
  * @param {string} lastChecked
- * @returns {{ name: string; domain: string; industry: string; status: string; last_checked: string } | null}
+ * @returns {{ name: string; domain: string; industry?: string; status: string; last_checked: string } | null}
  */
 function entryForCompany(company, policy, lastChecked) {
   const { domain } = company;
@@ -172,13 +171,14 @@ function entryForCompany(company, policy, lastChecked) {
   } else {
     return null;
   }
-  return {
+  const row = {
     name: company.name,
     domain,
-    industry: company.industry || "",
     status,
     last_checked: lastChecked,
   };
+  if (company.industry) row.industry = String(company.industry).trim();
+  return row;
 }
 
 /**
@@ -187,7 +187,7 @@ function entryForCompany(company, policy, lastChecked) {
  * @param {number} concurrency
  * @param {number} timeoutMs
  * @param {number} maxAttempts
- * @returns {Promise<{ name: string; domain: string; industry: string; status: string; last_checked: string }[]>}
+ * @returns {Promise<{ name: string; domain: string; status: string; last_checked: string }[]>}
  */
 async function runParallelLookups(companies, concurrency, timeoutMs, maxAttempts) {
   const lastChecked = new Date().toISOString();
@@ -234,7 +234,7 @@ async function runParallelLookups(companies, concurrency, timeoutMs, maxAttempts
 }
 
 /**
- * @param {{ name: string; domain: string; industry: string; status: string; last_checked: string }[]} flagged
+ * @param {{ name: string; domain: string; status: string; last_checked: string }[]} flagged
  */
 async function writeOutput(flagged) {
   const dir = dirname(OUTPUT_FILE);
